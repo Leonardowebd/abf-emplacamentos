@@ -113,10 +113,69 @@ body{font-family:'Barlow',Arial,sans-serif;background:#F5F6F8;color:#191A24;-web
 .bg-white{background:#fff}
 .bg-blue{background:#1A3A8F}
 
+/* ─── Mobile Menu Overlay ─── */
+.mobile-nav{
+  display:none;
+  position:fixed;
+  top:88px;left:0;right:0;
+  background:#0A1E5C;
+  z-index:98;
+  flex-direction:column;
+  border-top:2px solid rgba(204,30,46,0.5);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  max-height:calc(100vh - 88px);
+  overflow-y:auto;
+}
+.mobile-nav.open{display:flex}
+.mobile-nav-link{
+  font-family:'Barlow Condensed',Arial,sans-serif;
+  font-size:18px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:rgba(255,255,255,0.85);
+  padding:16px 24px;
+  border:none;background:none;cursor:pointer;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  min-height:56px;
+  transition:background 150ms,color 150ms;
+}
+.mobile-nav-link:active,.mobile-nav-link:hover{background:rgba(255,255,255,0.07);color:#fff}
+.mobile-nav-cta{
+  font-family:'Barlow Condensed',Arial,sans-serif;
+  font-size:16px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  background:#CC1E2E;color:#fff;
+  margin:16px;border-radius:4px;
+  border:none;cursor:pointer;
+  padding:14px 20px;min-height:52px;
+  transition:background 150ms;
+}
+.mobile-nav-cta:active{background:#9E1520}
+
+/* ─── Hamburger Button ─── */
+.hamburger-btn{
+  display:none;
+  background:none;border:none;cursor:pointer;
+  padding:8px;color:#fff;
+  flex-direction:column;gap:5px;
+  min-height:44px;min-width:44px;
+  align-items:center;justify-content:center;
+  border-radius:4px;
+}
+.hamburger-btn:hover{background:rgba(255,255,255,0.08)}
+.ham-line{
+  width:22px;height:2px;
+  background:#fff;border-radius:1px;
+  transition:transform 200ms,opacity 200ms;
+  display:block;
+}
+.ham-open .ham-line:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham-open .ham-line:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham-open .ham-line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
 /* ─── Responsive ─── */
 @media(max-width:900px){
   .hero-inner{flex-direction:column!important;text-align:center}
-  .hero-inner .plate-scene{padding:20px 0 30px}
   .hero-stats{justify-content:center!important}
   .hero-btns{justify-content:center!important}
   .services-grid{grid-template-columns:1fr 1fr!important}
@@ -131,11 +190,65 @@ body{font-family:'Barlow',Arial,sans-serif;background:#F5F6F8;color:#191A24;-web
   .plate-edge-bottom{width:300px!important}
   .plate-reflection{width:300px!important}
 }
-@media(max-width:600px){
+
+@media(max-width:768px){
+  /* Topbar: esconder horário, reduzir padding */
+  .topbar-hours{display:none!important}
+  .topbar{padding:0 16px!important;height:auto!important;min-height:32px}
+
+  /* Nav: hamburger visível, links escondidos */
+  .nav-links{display:none!important}
+  .hamburger-btn{display:flex!important}
+  .nav-main{padding:0 16px!important;height:56px!important}
+
+  /* Hero: esconder placa no mobile, ajustar espaçamento */
+  .hero-plate-wrapper{display:none!important}
+  .hero-section{padding:40px 20px 44px!important;min-height:auto!important}
+  .hero-h1{font-size:40px!important;line-height:1.0!important}
+  .hero-lead{font-size:15px!important}
+  .hero-btns{flex-direction:column!important;gap:10px!important;align-items:stretch!important}
+  .hero-btns button{width:100%!important;text-align:center!important;justify-content:center!important;padding:14px!important}
+  .hero-stats{gap:16px!important}
+
+  /* Sections: padding menor */
+  .section-services,.section-trust,.section-contact,.section-showcase{padding:40px 20px!important}
+  .section-cta{padding:32px 20px!important}
+  .differentials-strip{padding:12px 16px!important}
+
+  /* Diferenciais: grid 2×2 */
+  .differentials-inner{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important}
+  .diff-divider{display:none!important}
+
+  /* Form: campos 2-col → 1-col */
+  .form-2col{grid-template-columns:1fr!important}
+
+  /* CTA banner button full-width */
+  .cta-btn-wrap{width:100%!important}
+  .cta-btn-wrap button{width:100%!important}
+
+  /* Touch targets mínimos */
+  button{min-height:44px}
+  input,select,textarea{
+    min-height:48px!important;
+    font-size:16px!important;
+  }
+
+  /* Placa no showcase menor */
+  .plate-3d{width:280px!important;height:92px!important}
+  .plate-edge-top{width:280px!important}
+  .plate-edge-bottom{width:280px!important}
+  .plate-reflection{width:280px!important}
+
+  /* Footer */
+  .footer-grid{grid-template-columns:1fr 1fr!important}
+}
+
+@media(max-width:480px){
+  .hero-h1{font-size:34px!important}
   .services-grid{grid-template-columns:1fr!important}
   .footer-grid{grid-template-columns:1fr!important}
-  .nav-links{display:none!important}
-  .hero-h1{font-size:42px!important}
+  .differentials-inner{grid-template-columns:1fr!important}
+  .trust-grid{grid-template-columns:1fr!important}
 }
 </style>
 </head>
@@ -299,10 +412,13 @@ const svgIcon = (d) => <svg width="22" height="22" viewBox="0 0 24 24" fill="non
    HEADER
 ═══════════════════════════════════ */
 const Header = ({page, onNav}) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const links = [{id:'home',label:'Início'},{id:'services',label:'Serviços'},{id:'about',label:'Sobre'},{id:'contact',label:'Contato'}];
+  const handleNav = (id) => { setMenuOpen(false); onNav(id); };
   return (
     <header style={{position:'sticky',top:0,zIndex:100}}>
-      <div style={{background:'#122B6E',height:26,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px'}}>
+      {/* Topbar */}
+      <div className="topbar" style={{background:'#122B6E',height:26,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px'}}>
         <div style={{display:'flex',gap:20,alignItems:'center'}}>
           <span style={{fontSize:11,color:'rgba(255,255,255,0.65)',fontFamily:'Barlow,Arial,sans-serif',display:'flex',alignItems:'center',gap:5}}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -313,27 +429,55 @@ const Header = ({page, onNav}) => {
             (77) 9999-0000
           </span>
         </div>
-        <span style={{fontSize:11,color:'rgba(255,255,255,0.55)',fontFamily:'Barlow,Arial,sans-serif'}}>Seg–Sex 8h–18h · Sáb 8h–13h</span>
+        <span className="topbar-hours" style={{fontSize:11,color:'rgba(255,255,255,0.55)',fontFamily:'Barlow,Arial,sans-serif'}}>Seg–Sex 8h–18h · Sáb 8h–13h</span>
       </div>
-      <nav style={{background:'#0D2260',height:62,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px',boxShadow:'0 2px 12px rgba(0,0,0,0.3)'}}>
-        <div style={{display:'flex',alignItems:'center',cursor:'pointer'}} onClick={()=>onNav('home')}>
+      {/* Nav principal */}
+      <nav className="nav-main" style={{background:'#0D2260',height:62,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px',boxShadow:'0 2px 12px rgba(0,0,0,0.3)'}}>
+        <div style={{display:'flex',alignItems:'center',cursor:'pointer'}} onClick={()=>handleNav('home')}>
           <div style={{width:4,height:40,background:'#CC1E2E',borderRadius:1,marginRight:12,flexShrink:0}}></div>
           <div>
             <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:30,fontWeight:900,color:'#fff',letterSpacing:-0.5,lineHeight:1}}>ABF</div>
             <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.5)',letterSpacing:2.5,textTransform:'uppercase',marginTop:2}}>Emplacamentos</div>
           </div>
         </div>
+        {/* Desktop links */}
         <div className="nav-links" style={{display:'flex',gap:2,alignItems:'center'}}>
           {links.map(l=>(
-            <button key={l.id} onClick={()=>onNav(l.id)} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:page===l.id?'#fff':'rgba(255,255,255,0.7)',padding:'7px 14px',borderRadius:3,cursor:'pointer',background:page===l.id?'rgba(255,255,255,0.1)':'transparent',border:'none',transition:'all 150ms'}}>
+            <button key={l.id} onClick={()=>handleNav(l.id)} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:page===l.id?'#fff':'rgba(255,255,255,0.7)',padding:'7px 14px',borderRadius:3,cursor:'pointer',background:page===l.id?'rgba(255,255,255,0.1)':'transparent',border:'none',transition:'all 150ms'}}>
               {l.label}
             </button>
           ))}
-          <button onClick={()=>onNav('contact')} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#CC1E2E',color:'#fff',padding:'8px 20px',borderRadius:4,cursor:'pointer',border:'none',marginLeft:8}}>
+          <button onClick={()=>handleNav('contact')} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#CC1E2E',color:'#fff',padding:'8px 20px',borderRadius:4,cursor:'pointer',border:'none',marginLeft:8}}>
             Solicitar Serviço
           </button>
         </div>
+        {/* Hamburger (mobile only) */}
+        <button className={`hamburger-btn${menuOpen?' ham-open':''}`} onClick={()=>setMenuOpen(o=>!o)} aria-label="Menu">
+          <span className="ham-line"></span>
+          <span className="ham-line"></span>
+          <span className="ham-line"></span>
+        </button>
       </nav>
+      {/* Mobile menu */}
+      <div className={`mobile-nav${menuOpen?' open':''}`}>
+        {links.map(l=>(
+          <button key={l.id} className="mobile-nav-link" onClick={()=>handleNav(l.id)}
+            style={{color: page===l.id?'#fff':'rgba(255,255,255,0.8)', background: page===l.id?'rgba(255,255,255,0.06)':'none'}}>
+            {l.label}
+          </button>
+        ))}
+        <button className="mobile-nav-cta" onClick={()=>handleNav('contact')}>
+          Solicitar Serviço
+        </button>
+        {/* Contato rápido no menu */}
+        <div style={{padding:'16px 24px 24px',borderTop:'1px solid rgba(255,255,255,0.08)',marginTop:4}}>
+          <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:13,color:'rgba(255,255,255,0.5)',marginBottom:6}}>Seg–Sex 8h–18h · Sáb 8h–13h</div>
+          <a href="tel:77999990000" style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:16,fontWeight:700,color:'rgba(255,255,255,0.85)',letterSpacing:'0.04em',textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.18 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (77) 9999-0000
+          </a>
+        </div>
+      </div>
     </header>
   );
 };
@@ -342,7 +486,7 @@ const Header = ({page, onNav}) => {
    HERO
 ═══════════════════════════════════ */
 const Hero = ({onCTA}) => (
-  <section style={{position:'relative',overflow:'hidden',padding:'64px 32px 56px',minHeight:520,display:'flex',alignItems:'center',backgroundImage:"url('./assets/hero_bg.png')",backgroundSize:'cover',backgroundPosition:'center'}}>
+  <section className="hero-section" style={{position:'relative',overflow:'hidden',padding:'64px 32px 56px',minHeight:520,display:'flex',alignItems:'center',backgroundImage:"url('./assets/hero_bg.png')",backgroundSize:'cover',backgroundPosition:'center'}}>
     <div style={{position:'absolute',inset:0,background:'linear-gradient(to right,rgba(9,23,72,0.94) 0%,rgba(13,34,96,0.85) 45%,rgba(13,34,96,0.55) 100%)',pointerEvents:'none'}}></div>
     <div style={{position:'absolute',left:0,top:0,bottom:0,width:5,background:'#CC1E2E',zIndex:2}}></div>
     <div className="hero-inner" style={{maxWidth:1216,margin:'0 auto',width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,position:'relative',zIndex:2}}>
@@ -354,7 +498,7 @@ const Hero = ({onCTA}) => (
         <h1 className="hero-h1" style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:60,fontWeight:900,color:'#fff',lineHeight:0.95,letterSpacing:'-0.01em',textTransform:'uppercase',marginBottom:16}}>
           Emplacamento<br/><span style={{color:'#CC1E2E'}}>Rápido</span> e Seguro
         </h1>
-        <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:17,color:'rgba(255,255,255,0.72)',lineHeight:1.65,marginBottom:32,maxWidth:480}}>
+        <p className="hero-lead" style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:17,color:'rgba(255,255,255,0.72)',lineHeight:1.65,marginBottom:32,maxWidth:480}}>
           Regularize seu veículo sem burocracia. Atendemos pessoa física e jurídica com agilidade e segurança.
         </p>
         <div className="hero-btns" style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:40}}>
@@ -374,7 +518,7 @@ const Hero = ({onCTA}) => (
           ))}
         </div>
       </div>
-      <div style={{flex:'0 0 auto',display:'flex',flexDirection:'column',alignItems:'center'}}>
+      <div className="hero-plate-wrapper" style={{flex:'0 0 auto',display:'flex',flexDirection:'column',alignItems:'center'}}>
         <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:4}}>
           Placa Mercosul · Padrão DENATRAN
         </div>
@@ -388,7 +532,7 @@ const Hero = ({onCTA}) => (
    DIFFERENTIALS STRIP
 ═══════════════════════════════════ */
 const Differentials = () => (
-  <div className="bg-blue" style={{padding:'18px 32px'}}>
+  <div className="bg-blue differentials-strip" style={{padding:'18px 32px'}}>
     <div className="differentials-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',justifyContent:'space-between',gap:16,alignItems:'center'}}>
       {[
         [<ClockIcon/>, 'Atendimento em 30 min','Tempo médio de serviço'],
@@ -404,7 +548,7 @@ const Differentials = () => (
               <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:11,color:'rgba(255,255,255,0.6)',marginTop:1}}>{desc}</div>
             </div>
           </div>
-          {i<arr.length-1&&<div style={{width:1,height:32,background:'rgba(255,255,255,0.18)',flexShrink:0}}></div>}
+          {i<arr.length-1&&<div className="diff-divider" style={{width:1,height:32,background:'rgba(255,255,255,0.18)',flexShrink:0}}></div>}
         </React.Fragment>
       ))}
     </div>
@@ -436,7 +580,7 @@ const ServiceCard = ({icon,title,description,tags=[],featured=false,onCTA}) => {
 };
 
 const Services = ({onCTA}) => (
-  <section className="bg-light" style={{padding:'64px 32px'}}>
+  <section className="bg-light section-services" style={{padding:'64px 32px'}}>
     <div style={{maxWidth:1216,margin:'0 auto'}}>
       <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>O que fazemos</div>
       <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:700,color:'#0D2260',textTransform:'uppercase',letterSpacing:'-0.01em',lineHeight:1.1,marginBottom:8}}>Nossos Serviços</div>
@@ -457,7 +601,7 @@ const Services = ({onCTA}) => (
    TRUST / STATS
 ═══════════════════════════════════ */
 const Trust = () => (
-  <section className="bg-dark" style={{padding:'64px 32px'}}>
+  <section className="bg-dark section-trust" style={{padding:'64px 32px'}}>
     <div style={{maxWidth:1216,margin:'0 auto'}}>
       <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8,textAlign:'center'}}>Nossa história</div>
       <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:700,color:'#fff',textTransform:'uppercase',letterSpacing:'-0.01em',lineHeight:1.1,marginBottom:40,textAlign:'center'}}>Por que escolher a ABF?</div>
@@ -482,7 +626,7 @@ const Trust = () => (
    PLATE SHOWCASE
 ═══════════════════════════════════ */
 const PlateShowcase = ({onCTA}) => (
-  <section style={{background:'#0D2260',padding:'48px 32px',position:'relative',overflow:'hidden'}}>
+  <section className="section-showcase" style={{background:'#0D2260',padding:'48px 32px',position:'relative',overflow:'hidden'}}>
     <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 50%,rgba(204,30,46,0.08),transparent 60%)',pointerEvents:'none'}}></div>
     <div className="showcase-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,position:'relative'}}>
       <div style={{flex:1}}>
@@ -513,7 +657,7 @@ const PlateShowcase = ({onCTA}) => (
    CTA BANNER
 ═══════════════════════════════════ */
 const CTABanner = ({onCTA}) => (
-  <section className="bg-red" style={{padding:'44px 32px',position:'relative',overflow:'hidden'}}>
+  <section className="bg-red section-cta" style={{padding:'44px 32px',position:'relative',overflow:'hidden'}}>
     <div style={{position:'absolute',left:0,top:0,bottom:0,width:5,background:'rgba(0,0,0,0.15)'}}></div>
     <div className="cta-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',justifyContent:'space-between',alignItems:'center',gap:32}}>
       <div>
@@ -521,9 +665,11 @@ const CTABanner = ({onCTA}) => (
         <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:900,color:'#fff',textTransform:'uppercase',lineHeight:1.05}}>Solicite seu Emplacamento Agora</div>
         <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:15,color:'rgba(255,255,255,0.75)',marginTop:6}}>Sem filas, sem complicação. Seg–Sex 8h–18h · Sáb 8h–13h.</p>
       </div>
-      <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:16,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#fff',color:'#CC1E2E',border:'none',borderRadius:4,padding:'15px 36px',cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
-        Solicitar Agora
-      </button>
+      <div className="cta-btn-wrap" style={{flexShrink:0}}>
+        <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:16,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#fff',color:'#CC1E2E',border:'none',borderRadius:4,padding:'15px 36px',cursor:'pointer',whiteSpace:'nowrap',width:'100%'}}>
+          Solicitar Agora
+        </button>
+      </div>
     </div>
   </section>
 );
@@ -542,7 +688,7 @@ const Contact = () => {
     [svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),'Horário','Seg–Sex: 8h–18h\nSáb: 8h–13h'],
   ];
   return (
-    <section className="bg-white" style={{padding:'64px 32px',borderTop:'1px solid #E2E4EA'}} id="contact">
+    <section className="bg-white section-contact" style={{padding:'64px 32px',borderTop:'1px solid #E2E4EA'}} id="contact">
       <div style={{maxWidth:1216,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:64,alignItems:'start'}} className="contact-grid">
         <div>
           <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>Fale Conosco</div>
@@ -570,11 +716,11 @@ const Contact = () => {
             </div>
           ):(
             <form onSubmit={e=>{e.preventDefault();setSent(true);}}>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+              <div className="form-2col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
                 <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Nome Completo *</label><input style={inp} type="text" placeholder="João Silva" value={form.name} onChange={e=>upd('name',e.target.value)} required/></div>
                 <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>CPF / CNPJ *</label><input style={inp} type="text" placeholder="000.000.000-00" value={form.cpf} onChange={e=>upd('cpf',e.target.value)} required/></div>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+              <div className="form-2col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
                 <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Telefone *</label><input style={inp} type="text" placeholder="(77) 99999-0000" value={form.phone} onChange={e=>upd('phone',e.target.value)} required/></div>
                 <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Placa</label><input style={inp} type="text" placeholder="ABC-1D23" value={form.plate} onChange={e=>upd('plate',e.target.value)}/></div>
               </div>
