@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 158" fill="none">
+  <defs>
+    <linearGradient id="metalGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8D8EC"></stop>
+      <stop offset="30%" stop-color="#8898B4"></stop>
+      <stop offset="55%" stop-color="#5C6E88"></stop>
+      <stop offset="80%" stop-color="#7A8EA8"></stop>
+      <stop offset="100%" stop-color="#A0B0C8"></stop>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C04040"></stop>
+      <stop offset="40%" stop-color="#8B1C1C"></stop>
+      <stop offset="100%" stop-color="#6A1010"></stop>
+    </linearGradient>
+  </defs>
+  
+  <rect x="0" y="0" width="480" height="158" rx="8" fill="url(#borderGrad)"></rect>
+  
+  <rect x="13" y="13" width="454" height="132" rx="5" fill="#0A1228"></rect>
+  
+  <text x="302" y="126" font-family="Barlow Condensed, Arial Narrow, Arial, sans-serif" font-size="108" font-weight="900" fill="rgba(0,0,0,0.35)" font-style="italic" text-anchor="middle" letter-spacing="-2">ABF</text>
+  
+  <text x="300" y="124" font-family="Barlow Condensed, Arial Narrow, Arial, sans-serif" font-size="108" font-weight="900" fill="url(#metalGrad)" font-style="italic" text-anchor="middle" letter-spacing="-2">ABF</text>
+  
+  <path d="M 28 76 C 30 58 38 34 52 24 C 64 15 80 14 92 22 C 106 13 132 8 168 16 C 188 21 196 35 186 48 C 178 58 162 58 150 65 C 142 72 140 88 148 102 C 154 112 172 116 164 128 C 155 134 140 124 128 112 C 114 100 96 100 82 106 C 64 113 44 100 36 85 C 26 72 24 74 28 76 Z" fill="#B82828"></path>
+  
+  <path d="M 52 24 C 68 18 85 15 94 22 C 108 14 134 9 168 16 C 182 20 190 32 182 44 C 175 52 160 55 150 62 C 140 58 138 48 148 38 C 158 28 168 22 168 16 C 135 10 108 14 94 22 C 82 15 66 16 52 24 Z" fill="#C84040" opacity="0.5"></path>
+  
+  <path d="M 28 76 C 20 68 10 58 12 48 C 14 40 22 38 30 44 C 34 48 32 56 34 62 Z" fill="#9B1E1E"></path>
+  
+  <path d="M 28 76 C 18 74 12 68 16 62 C 20 58 28 60 32 66 Z" fill="#8A1818"></path>
+  
+  <ellipse cx="58" cy="38" rx="7" ry="6" fill="#070E1E"></ellipse>
+  <ellipse cx="57" cy="37" rx="3" ry="2.5" fill="#C02020" opacity="0.5"></ellipse>
+  <ellipse cx="56" cy="36" rx="1.5" ry="1.2" fill="rgba(255,255,255,0.25)"></ellipse>
+</svg>

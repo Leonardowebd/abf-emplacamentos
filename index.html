@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABF Emplacamentos — Vitória da Conquista, BA</title>
+<meta name="description" content="Emplacamentos veiculares, transferências e serviços administrativos em Vitória da Conquista, BA. Atendimento rápido para pessoa física e jurídica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',Arial,sans-serif;background:#F5F6F8;color:#191A24;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#F5F6F8}::-webkit-scrollbar-thumb{background:#C8CCDA;border-radius:3px}
+
+/* ─── 3D Plate ─── */
+.plate-scene{
+  perspective:1100px;
+  perspective-origin:50% 45%;
+  display:flex;align-items:center;justify-content:center;
+  padding:30px 20px 50px;
+}
+.plate-3d{
+  width:400px;height:132px;
+  position:relative;
+  transform-style:preserve-3d;
+  animation:plateSpin 8s linear infinite;
+  filter:drop-shadow(0 24px 48px rgba(0,0,0,0.55));
+}
+@keyframes plateSpin{
+  from{transform:rotateY(0deg)}
+  to{transform:rotateY(360deg)}
+}
+.plate-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:5px;
+}
+.plate-front{transform:translateZ(5px)}
+.plate-back{transform:rotateY(180deg) translateZ(5px)}
+.plate-edge-top{
+  position:absolute;width:400px;height:10px;
+  top:0;left:0;transform-origin:top center;
+  transform:rotateX(90deg) translateZ(-5px);
+  backface-visibility:hidden;
+  background:linear-gradient(to bottom,#b0b0b0,#888);
+}
+.plate-edge-bottom{
+  position:absolute;width:400px;height:10px;
+  bottom:0;left:0;transform-origin:bottom center;
+  transform:rotateX(-90deg) translateZ(-5px);
+  backface-visibility:hidden;
+  background:linear-gradient(to top,#b0b0b0,#888);
+}
+.plate-edge-left{
+  position:absolute;width:10px;height:132px;
+  top:0;left:0;transform-origin:left center;
+  transform:rotateY(-90deg) translateZ(-5px);
+  backface-visibility:hidden;
+  background:linear-gradient(to right,#b0b0b0,#888);
+}
+.plate-edge-right{
+  position:absolute;width:10px;height:132px;
+  top:0;right:0;transform-origin:right center;
+  transform:rotateY(90deg) translateZ(-5px);
+  backface-visibility:hidden;
+  background:linear-gradient(to left,#b0b0b0,#888);
+}
+.plate-reflection{
+  width:400px;height:40px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.08),transparent);
+  border-radius:50%;
+  margin-top:4px;
+  filter:blur(6px);
+  transform:scaleY(0.4);
+  opacity:0.6;
+  animation:reflectSpin 8s linear infinite;
+}
+@keyframes reflectSpin{
+  from{transform:scaleY(0.4) scaleX(1)}
+  25%{transform:scaleY(0.4) scaleX(0.05)}
+  50%{transform:scaleY(0.4) scaleX(1)}
+  75%{transform:scaleY(0.4) scaleX(0.05)}
+  to{transform:scaleY(0.4) scaleX(1)}
+}
+
+/* ─── Section Backgrounds ─── */
+.bg-hero{
+  background-color:#0D2260;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),
+    radial-gradient(rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:32px 32px,16px 16px;
+  background-position:0 0,8px 8px;
+}
+.bg-dark{
+  background-color:#091748;
+  background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:20px 20px;
+}
+.bg-light{
+  background-color:#F5F6F8;
+  background-image:repeating-linear-gradient(-45deg,transparent,transparent 24px,rgba(26,58,143,0.025) 24px,rgba(26,58,143,0.025) 25px);
+}
+.bg-red{
+  background-color:#CC1E2E;
+  background-image:repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.06) 12px,rgba(0,0,0,0.06) 13px);
+}
+.bg-white{background:#fff}
+.bg-blue{background:#1A3A8F}
+
+/* ─── Responsive ─── */
+@media(max-width:900px){
+  .hero-inner{flex-direction:column!important;text-align:center}
+  .hero-inner .plate-scene{padding:20px 0 30px}
+  .hero-stats{justify-content:center!important}
+  .hero-btns{justify-content:center!important}
+  .services-grid{grid-template-columns:1fr 1fr!important}
+  .trust-grid{grid-template-columns:1fr!important}
+  .footer-grid{grid-template-columns:1fr 1fr!important}
+  .contact-grid{grid-template-columns:1fr!important}
+  .showcase-inner{flex-direction:column!important;text-align:center;align-items:center!important}
+  .differentials-inner{flex-wrap:wrap!important}
+  .cta-inner{flex-direction:column!important;text-align:center;align-items:center!important}
+  .plate-3d{width:300px!important;height:99px!important}
+  .plate-edge-top{width:300px!important}
+  .plate-edge-bottom{width:300px!important}
+  .plate-reflection{width:300px!important}
+}
+@media(max-width:600px){
+  .services-grid{grid-template-columns:1fr!important}
+  .footer-grid{grid-template-columns:1fr!important}
+  .nav-links{display:none!important}
+  .hero-h1{font-size:42px!important}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+/* ══════════════════════════════════
+   MERCOSUL PLATE COMPONENT
+═══════════════════════════════════ */
+const MercosulPlate = ({chars='ABF·1E24',city='VITÓRIA DA CONQUISTA',state='BA'}) => {
+  const frameStyle = {
+    position:'absolute',inset:0,borderRadius:5,
+    background:'linear-gradient(to bottom,#d8d8d8 0%,#a8a8a8 30%,#c0c0c0 50%,#909090 70%,#c0c0c0 100%)',
+    padding:'6px',
+  };
+  const innerStyle = {
+    width:'100%',height:'100%',borderRadius:3,
+    background:'#fff',overflow:'hidden',
+    display:'flex',flexDirection:'column',
+    border:'1.5px solid #ccc',
+  };
+  const bannerStyle = {
+    background:'#0A1B84',height:28,flexShrink:0,
+    display:'flex',alignItems:'center',
+    padding:'0 6px',gap:5,position:'relative',
+  };
+  const starsStyle = {
+    color:'#FFD700',fontSize:9,letterSpacing:2,
+    display:'flex',alignItems:'center',gap:1,flexShrink:0,
+  };
+  const flagCircleStyle = {
+    width:16,height:16,borderRadius:'50%',
+    background:'#009B3A',
+    display:'flex',alignItems:'center',justifyContent:'center',
+    flexShrink:0,border:'1.5px solid #009B3A',
+    position:'relative',overflow:'hidden',
+  };
+  const flagInnerStyle = {
+    width:11,height:11,borderRadius:'50%',
+    background:'#002776',
+    display:'flex',alignItems:'center',justifyContent:'center',
+  };
+  const brasilStyle = {
+    fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',
+    fontSize:12,fontWeight:800,color:'#fff',letterSpacing:3,
+    textTransform:'uppercase',flex:1,textAlign:'center',
+  };
+  const greenStripStyle = {
+    width:8,height:'100%',flexShrink:0,
+    background:'linear-gradient(to bottom,#009B3A 0%,#007A2C 100%)',
+    marginRight:-6,
+  };
+  const mainStyle = {
+    flex:1,display:'flex',flexDirection:'column',
+    alignItems:'center',justifyContent:'center',
+    background:'linear-gradient(to bottom,#ffffff,#f8f8f8)',
+    position:'relative',padding:'2px 8px 3px',
+  };
+  const charsStyle = {
+    fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',
+    fontSize:52,fontWeight:900,color:'#0A0A0A',
+    letterSpacing:5,lineHeight:1,
+    textShadow:'1px 1px 0 rgba(0,0,0,0.15)',
+    display:'flex',alignItems:'center',gap:2,
+  };
+  const cityStyle = {
+    fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',
+    fontSize:10,fontWeight:700,color:'#0A1B84',
+    letterSpacing:2,textTransform:'uppercase',marginTop:1,
+  };
+  const screwStyle = {
+    position:'absolute',width:7,height:7,borderRadius:'50%',
+    background:'radial-gradient(circle at 35% 35%,#d0d0d0,#888)',
+    border:'0.5px solid #999',
+  };
+  const leftLineStyle = {
+    position:'absolute',left:8,top:30,bottom:3,width:2,
+    background:'linear-gradient(to bottom,#009B3A,#006E28)',
+    borderRadius:1,
+  };
+
+  return (
+    <div className="plate-scene">
+      <div>
+        <div className="plate-3d">
+          <div className="plate-edge-top"></div>
+          <div className="plate-edge-bottom"></div>
+          <div className="plate-edge-left"></div>
+          <div className="plate-edge-right"></div>
+
+          <div className="plate-face plate-front">
+            <div style={frameStyle}>
+              <div style={innerStyle}>
+                <div style={bannerStyle}>
+                  <div style={starsStyle}>
+                    <span>★</span><span>★</span><span>★</span><span>★</span>
+                  </div>
+                  <div style={flagCircleStyle}>
+                    <div style={flagInnerStyle}>
+                      <span style={{color:'#fff',fontSize:4,letterSpacing:-0.5}}>★★★</span>
+                    </div>
+                  </div>
+                  <div style={brasilStyle}>B R A S I L</div>
+                  <div style={greenStripStyle}></div>
+                </div>
+                <div style={mainStyle}>
+                  <div style={{...screwStyle,left:4,top:4}}></div>
+                  <div style={{...screwStyle,right:4,top:4}}></div>
+                  <div style={{...screwStyle,left:4,bottom:4}}></div>
+                  <div style={{...screwStyle,right:4,bottom:4}}></div>
+                  <div style={leftLineStyle}></div>
+                  <div style={charsStyle}>{chars}</div>
+                  <div style={cityStyle}>{city} · {state}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="plate-face plate-back">
+            <div style={{
+              position:'absolute',inset:0,borderRadius:5,
+              background:'linear-gradient(to bottom,#c0c0c0,#909090 40%,#b0b0b0)',
+            }}>
+              <div style={{position:'absolute',inset:8,borderRadius:3,
+                background:'linear-gradient(135deg,#b8b8b8 0%,#888 30%,#a0a0a0 50%,#888 70%,#b0b0b0 100%)',
+                display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:6,
+              }}>
+                <div style={{display:'flex',gap:8,opacity:0.4}}>
+                  {[0,1,2,3,4].map(i=>(
+                    <div key={i} style={{width:2,height:40,background:'#666',borderRadius:1}}></div>
+                  ))}
+                </div>
+                <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:8,color:'#666',letterSpacing:1.5,textTransform:'uppercase'}}>DENATRAN · BRASIL</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="plate-reflection" style={{width:400}}></div>
+      </div>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════
+   ICONS
+═══════════════════════════════════ */
+const ZapIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+const ClipboardIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>;
+const Building2Icon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8h4"/><path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>;
+const MapPinIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>;
+const ClockIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+const CarIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A8F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2h-1"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>;
+const ArrowsIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A8F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>;
+const PrinterIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A8F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>;
+const FileIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A8F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
+const svgIcon = (d) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A8F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{__html:d}}/>;
+
+/* ══════════════════════════════════
+   HEADER
+═══════════════════════════════════ */
+const Header = ({page, onNav}) => {
+  const links = [{id:'home',label:'Início'},{id:'services',label:'Serviços'},{id:'about',label:'Sobre'},{id:'contact',label:'Contato'}];
+  return (
+    <header style={{position:'sticky',top:0,zIndex:100}}>
+      <div style={{background:'#122B6E',height:26,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px'}}>
+        <div style={{display:'flex',gap:20,alignItems:'center'}}>
+          <span style={{fontSize:11,color:'rgba(255,255,255,0.65)',fontFamily:'Barlow,Arial,sans-serif',display:'flex',alignItems:'center',gap:5}}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Vitória da Conquista, BA
+          </span>
+          <span style={{fontSize:11,color:'rgba(255,255,255,0.65)',fontFamily:'Barlow,Arial,sans-serif',display:'flex',alignItems:'center',gap:5}}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.18 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (77) 9999-0000
+          </span>
+        </div>
+        <span style={{fontSize:11,color:'rgba(255,255,255,0.55)',fontFamily:'Barlow,Arial,sans-serif'}}>Seg–Sex 8h–18h · Sáb 8h–13h</span>
+      </div>
+      <nav style={{background:'#0D2260',height:62,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px',boxShadow:'0 2px 12px rgba(0,0,0,0.3)'}}>
+        <div style={{display:'flex',alignItems:'center',cursor:'pointer'}} onClick={()=>onNav('home')}>
+          <div style={{width:4,height:40,background:'#CC1E2E',borderRadius:1,marginRight:12,flexShrink:0}}></div>
+          <div>
+            <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:30,fontWeight:900,color:'#fff',letterSpacing:-0.5,lineHeight:1}}>ABF</div>
+            <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.5)',letterSpacing:2.5,textTransform:'uppercase',marginTop:2}}>Emplacamentos</div>
+          </div>
+        </div>
+        <div className="nav-links" style={{display:'flex',gap:2,alignItems:'center'}}>
+          {links.map(l=>(
+            <button key={l.id} onClick={()=>onNav(l.id)} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:page===l.id?'#fff':'rgba(255,255,255,0.7)',padding:'7px 14px',borderRadius:3,cursor:'pointer',background:page===l.id?'rgba(255,255,255,0.1)':'transparent',border:'none',transition:'all 150ms'}}>
+              {l.label}
+            </button>
+          ))}
+          <button onClick={()=>onNav('contact')} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#CC1E2E',color:'#fff',padding:'8px 20px',borderRadius:4,cursor:'pointer',border:'none',marginLeft:8}}>
+            Solicitar Serviço
+          </button>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+/* ══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+const Hero = ({onCTA}) => (
+  <section style={{position:'relative',overflow:'hidden',padding:'64px 32px 56px',minHeight:520,display:'flex',alignItems:'center',backgroundImage:"url('./assets/hero_bg.png')",backgroundSize:'cover',backgroundPosition:'center'}}>
+    <div style={{position:'absolute',inset:0,background:'linear-gradient(to right,rgba(9,23,72,0.94) 0%,rgba(13,34,96,0.85) 45%,rgba(13,34,96,0.55) 100%)',pointerEvents:'none'}}></div>
+    <div style={{position:'absolute',left:0,top:0,bottom:0,width:5,background:'#CC1E2E',zIndex:2}}></div>
+    <div className="hero-inner" style={{maxWidth:1216,margin:'0 auto',width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,position:'relative',zIndex:2}}>
+      <div style={{flex:'0 0 auto',maxWidth:580}}>
+        <div style={{display:'inline-flex',alignItems:'center',gap:7,fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'rgba(255,255,255,0.65)',marginBottom:18}}>
+          <span style={{width:6,height:6,background:'#CC1E2E',borderRadius:'50%',display:'inline-block'}}></span>
+          Vitória da Conquista · Bahia
+        </div>
+        <h1 className="hero-h1" style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:60,fontWeight:900,color:'#fff',lineHeight:0.95,letterSpacing:'-0.01em',textTransform:'uppercase',marginBottom:16}}>
+          Emplacamento<br/><span style={{color:'#CC1E2E'}}>Rápido</span> e Seguro
+        </h1>
+        <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:17,color:'rgba(255,255,255,0.72)',lineHeight:1.65,marginBottom:32,maxWidth:480}}>
+          Regularize seu veículo sem burocracia. Atendemos pessoa física e jurídica com agilidade e segurança.
+        </p>
+        <div className="hero-btns" style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:40}}>
+          <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:15,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#CC1E2E',color:'#fff',padding:'13px 30px',borderRadius:4,border:'none',cursor:'pointer'}}>
+            Solicitar Emplacamento
+          </button>
+          <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:15,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',background:'rgba(255,255,255,0.08)',color:'#fff',padding:'13px 28px',borderRadius:4,border:'1.5px solid rgba(255,255,255,0.25)',cursor:'pointer'}}>
+            Ver Serviços
+          </button>
+        </div>
+        <div className="hero-stats" style={{display:'flex',gap:32}}>
+          {[['+ 4.200','Emplacamentos'],['10 anos','de Experiência'],['30 min','Tempo Médio']].map(([n,l])=>(
+            <div key={l} style={{borderLeft:'3px solid #CC1E2E',paddingLeft:12}}>
+              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:26,fontWeight:800,color:'#fff',lineHeight:1}}>{n}</div>
+              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.5)',letterSpacing:'0.08em',textTransform:'uppercase',marginTop:4}}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{flex:'0 0 auto',display:'flex',flexDirection:'column',alignItems:'center'}}>
+        <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:4}}>
+          Placa Mercosul · Padrão DENATRAN
+        </div>
+        <MercosulPlate chars="ABF·1E24" city="VITÓRIA DA CONQUISTA" state="BA" />
+      </div>
+    </div>
+  </section>
+);
+
+/* ══════════════════════════════════
+   DIFFERENTIALS STRIP
+═══════════════════════════════════ */
+const Differentials = () => (
+  <div className="bg-blue" style={{padding:'18px 32px'}}>
+    <div className="differentials-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',justifyContent:'space-between',gap:16,alignItems:'center'}}>
+      {[
+        [<ClockIcon/>, 'Atendimento em 30 min','Tempo médio de serviço'],
+        [<ClipboardIcon/>,'Sem burocracia','Resolvemos tudo por você'],
+        [<Building2Icon/>,'PF e PJ','Pessoa física e jurídica'],
+        [<MapPinIcon/>,'Centro de VC','Fácil acesso e estacionamento'],
+      ].map(([ic,label,desc],i,arr)=>(
+        <React.Fragment key={label}>
+          <div style={{display:'flex',alignItems:'center',gap:10,flex:1,color:'rgba(255,255,255,0.75)'}}>
+            {ic}
+            <div>
+              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:14,fontWeight:700,color:'#fff',lineHeight:1.1}}>{label}</div>
+              <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:11,color:'rgba(255,255,255,0.6)',marginTop:1}}>{desc}</div>
+            </div>
+          </div>
+          {i<arr.length-1&&<div style={{width:1,height:32,background:'rgba(255,255,255,0.18)',flexShrink:0}}></div>}
+        </React.Fragment>
+      ))}
+    </div>
+  </div>
+);
+
+/* ══════════════════════════════════
+   SERVICES
+═══════════════════════════════════ */
+const ServiceCard = ({icon,title,description,tags=[],featured=false,onCTA}) => {
+  const [hov,setHov] = useState(false);
+  return (
+    <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{background:'#fff',borderRadius:8,border:featured?'2px solid #1A3A8F':'1px solid #E2E4EA',
+        boxShadow:hov?'0 8px 24px rgba(13,34,96,0.14)':'0 1px 4px rgba(13,34,96,0.07)',
+        padding:'24px',display:'flex',flexDirection:'column',gap:12,position:'relative',overflow:'hidden',
+        transition:'box-shadow 150ms ease-out',cursor:'default'}}>
+      {featured&&<div style={{position:'absolute',top:0,right:0,background:'#1A3A8F',color:'#fff',fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',padding:'3px 10px',borderBottomLeftRadius:5}}>Mais Solicitado</div>}
+      <div style={{position:'absolute',left:0,top:0,bottom:0,width:3,background:featured?'#CC1E2E':'transparent',borderRadius:'4px 0 0 4px'}}></div>
+      <div style={{width:44,height:44,background:'#EDF1FC',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>{icon}</div>
+      <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:20,fontWeight:700,color:'#0D2260',lineHeight:1.1}}>{title}</div>
+      <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'#515770',lineHeight:1.55,flex:1}}>{description}</div>
+      {tags.length>0&&<div style={{display:'flex',gap:5,flexWrap:'wrap'}}>{tags.map(t=><span key={t} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,letterSpacing:'0.08em',textTransform:'uppercase',background:'#EDF1FC',color:'#0D2260',padding:'2px 7px',borderRadius:2}}>{t}</span>)}</div>}
+      <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:featured?'#CC1E2E':'#1A3A8F',color:'#fff',border:'none',borderRadius:4,padding:'9px 18px',cursor:'pointer',alignSelf:'flex-start',transition:'background 150ms'}}>
+        Solicitar
+      </button>
+    </div>
+  );
+};
+
+const Services = ({onCTA}) => (
+  <section className="bg-light" style={{padding:'64px 32px'}}>
+    <div style={{maxWidth:1216,margin:'0 auto'}}>
+      <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>O que fazemos</div>
+      <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:700,color:'#0D2260',textTransform:'uppercase',letterSpacing:'-0.01em',lineHeight:1.1,marginBottom:8}}>Nossos Serviços</div>
+      <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:15,color:'#515770',marginBottom:36,maxWidth:480}}>Tudo que você precisa para regularizar seu veículo, em um só lugar.</p>
+      <div className="services-grid" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16}}>
+        {[
+          {icon:<CarIcon/>,title:'Emplacamento Novo',description:'Emplace seu veículo zero km ou recém-adquirido. Rápido, sem filas, com toda documentação em dia.',tags:['Carros','Motos','Caminhões'],featured:true},
+          {icon:<ArrowsIcon/>,title:'Transferência',description:'Transferência veicular com toda a burocracia resolvida por nós. Atendimento completo PF e PJ.',tags:['PF','PJ']},
+          {icon:<PrinterIcon/>,title:'Fotocópias',description:'Serviço de fotocópia de documentos veiculares e administrativos com rapidez e qualidade.',tags:['P&B','Colorido']},
+          {icon:<FileIcon/>,title:'Serviços Adm.',description:'Regularização documental, consulta de débitos, IPVA e outros serviços administrativos veiculares.',tags:['DETRAN','IPVA']},
+        ].map((s,i)=><ServiceCard key={i} {...s} onCTA={onCTA}/>)}
+      </div>
+    </div>
+  </section>
+);
+
+/* ══════════════════════════════════
+   TRUST / STATS
+═══════════════════════════════════ */
+const Trust = () => (
+  <section className="bg-dark" style={{padding:'64px 32px'}}>
+    <div style={{maxWidth:1216,margin:'0 auto'}}>
+      <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8,textAlign:'center'}}>Nossa história</div>
+      <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:700,color:'#fff',textTransform:'uppercase',letterSpacing:'-0.01em',lineHeight:1.1,marginBottom:40,textAlign:'center'}}>Por que escolher a ABF?</div>
+      <div className="trust-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
+        {[
+          ['+4.200','Emplacamentos','Veículos regularizados com nossa equipe especializada em VC-BA.'],
+          ['10 anos','de Mercado','Experiência e credibilidade em documentação veicular na região.'],
+          ['100%','Regularizado','Atendimento conforme normas do DETRAN e DENATRAN.'],
+        ].map(([num,label,desc])=>(
+          <div key={label} style={{background:'rgba(255,255,255,0.04)',borderRadius:8,padding:'28px 24px',borderTop:'3px solid #CC1E2E'}}>
+            <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:52,fontWeight:900,color:'#fff',lineHeight:1}}>{num}</div>
+            <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:14,fontWeight:600,color:'#9AA0B0',textTransform:'uppercase',letterSpacing:'0.06em',marginTop:4}}>{label}</div>
+            <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'rgba(255,255,255,0.55)',lineHeight:1.55,marginTop:12}}>{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+/* ══════════════════════════════════
+   PLATE SHOWCASE
+═══════════════════════════════════ */
+const PlateShowcase = ({onCTA}) => (
+  <section style={{background:'#0D2260',padding:'48px 32px',position:'relative',overflow:'hidden'}}>
+    <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 50%,rgba(204,30,46,0.08),transparent 60%)',pointerEvents:'none'}}></div>
+    <div className="showcase-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,position:'relative'}}>
+      <div style={{flex:1}}>
+        <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>Padrão oficial</div>
+        <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:38,fontWeight:800,color:'#fff',textTransform:'uppercase',lineHeight:1.05,marginBottom:12}}>Placa Mercosul</div>
+        <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:15,color:'rgba(255,255,255,0.65)',lineHeight:1.65,maxWidth:440,marginBottom:24}}>
+          Realizamos emplacamentos no padrão Mercosul conforme determinação do DENATRAN. Placa com tecnologia e segurança para seu veículo.
+        </p>
+        <div style={{display:'flex',gap:16,flexWrap:'wrap'}}>
+          {['Lacre de segurança','Impressão laser','Alumínio grau A'].map(f=>(
+            <div key={f} style={{display:'flex',alignItems:'center',gap:6,fontFamily:'Barlow,Arial,sans-serif',fontSize:13,color:'rgba(255,255,255,0.75)'}}>
+              <span style={{width:5,height:5,background:'#CC1E2E',borderRadius:'50%',flexShrink:0}}></span>{f}
+            </div>
+          ))}
+        </div>
+        <button onClick={onCTA} style={{marginTop:28,fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:14,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#CC1E2E',color:'#fff',border:'none',borderRadius:4,padding:'11px 26px',cursor:'pointer'}}>
+          Solicitar Emplacamento
+        </button>
+      </div>
+      <div style={{flex:'0 0 auto'}}>
+        <MercosulPlate chars="VCA·0J23" city="VITÓRIA DA CONQUISTA" state="BA" />
+      </div>
+    </div>
+  </section>
+);
+
+/* ══════════════════════════════════
+   CTA BANNER
+═══════════════════════════════════ */
+const CTABanner = ({onCTA}) => (
+  <section className="bg-red" style={{padding:'44px 32px',position:'relative',overflow:'hidden'}}>
+    <div style={{position:'absolute',left:0,top:0,bottom:0,width:5,background:'rgba(0,0,0,0.15)'}}></div>
+    <div className="cta-inner" style={{maxWidth:1216,margin:'0 auto',display:'flex',justifyContent:'space-between',alignItems:'center',gap:32}}>
+      <div>
+        <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'rgba(255,255,255,0.75)',marginBottom:6}}>Pronto para regularizar?</div>
+        <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:900,color:'#fff',textTransform:'uppercase',lineHeight:1.05}}>Solicite seu Emplacamento Agora</div>
+        <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:15,color:'rgba(255,255,255,0.75)',marginTop:6}}>Sem filas, sem complicação. Seg–Sex 8h–18h · Sáb 8h–13h.</p>
+      </div>
+      <button onClick={onCTA} style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:16,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',background:'#fff',color:'#CC1E2E',border:'none',borderRadius:4,padding:'15px 36px',cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
+        Solicitar Agora
+      </button>
+    </div>
+  </section>
+);
+
+/* ══════════════════════════════════
+   CONTACT
+═══════════════════════════════════ */
+const Contact = () => {
+  const [form,setForm] = useState({name:'',cpf:'',phone:'',service:'',plate:'',notes:''});
+  const [sent,setSent] = useState(false);
+  const upd = (k,v) => setForm(f=>({...f,[k]:v}));
+  const inp = {width:'100%',padding:'9px 12px',border:'1px solid #E2E4EA',borderRadius:4,fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'#191A24',background:'#fff',outline:'none',boxSizing:'border-box'};
+  const contactItems = [
+    [svgIcon('<path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>'),'Endereço','Rua das Placas, 123 — Centro\nVitória da Conquista, BA'],
+    [svgIcon('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.18 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>'),'Telefone','(77) 9999-0000\n(77) 9999-0001 WhatsApp'],
+    [svgIcon('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),'Horário','Seg–Sex: 8h–18h\nSáb: 8h–13h'],
+  ];
+  return (
+    <section className="bg-white" style={{padding:'64px 32px',borderTop:'1px solid #E2E4EA'}} id="contact">
+      <div style={{maxWidth:1216,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:64,alignItems:'start'}} className="contact-grid">
+        <div>
+          <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:12,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>Fale Conosco</div>
+          <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:36,fontWeight:700,color:'#0D2260',textTransform:'uppercase',lineHeight:1.1,marginBottom:8}}>Solicite um Serviço</div>
+          <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:15,color:'#515770',lineHeight:1.6,marginBottom:32}}>Preencha o formulário ou entre em contato pelos canais abaixo.</p>
+          <div style={{display:'flex',flexDirection:'column',gap:20}}>
+            {contactItems.map(([icon,title,text])=>(
+              <div key={title} style={{display:'flex',gap:14,alignItems:'flex-start'}}>
+                <div style={{width:40,height:40,background:'#D6E0F7',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{icon}</div>
+                <div>
+                  <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,color:'#0D2260',textTransform:'uppercase',letterSpacing:'0.04em',marginBottom:3}}>{title}</div>
+                  <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'#515770',lineHeight:1.55,whiteSpace:'pre-line'}}>{text}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{background:'#F5F6F8',borderRadius:10,padding:'32px',border:'1px solid #E2E4EA'}}>
+          <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:20,fontWeight:700,color:'#0D2260',textTransform:'uppercase',letterSpacing:'-0.01em',marginBottom:20}}>Solicitar Atendimento</div>
+          {sent?(
+            <div style={{background:'#EBF7F2',border:'1px solid #1A6E47',borderRadius:8,padding:24,textAlign:'center'}}>
+              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:22,fontWeight:700,color:'#1A6E47',marginBottom:6}}>Solicitação Enviada!</div>
+              <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'#1A6E47'}}>Entraremos em contato em até 1 hora útil.</div>
+              <button onClick={()=>setSent(false)} style={{marginTop:16,padding:'8px 20px',background:'#1A6E47',color:'#fff',border:'none',borderRadius:4,fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:13,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',cursor:'pointer'}}>Nova Solicitação</button>
+            </div>
+          ):(
+            <form onSubmit={e=>{e.preventDefault();setSent(true);}}>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+                <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Nome Completo *</label><input style={inp} type="text" placeholder="João Silva" value={form.name} onChange={e=>upd('name',e.target.value)} required/></div>
+                <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>CPF / CNPJ *</label><input style={inp} type="text" placeholder="000.000.000-00" value={form.cpf} onChange={e=>upd('cpf',e.target.value)} required/></div>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+                <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Telefone *</label><input style={inp} type="text" placeholder="(77) 99999-0000" value={form.phone} onChange={e=>upd('phone',e.target.value)} required/></div>
+                <div><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Placa</label><input style={inp} type="text" placeholder="ABC-1D23" value={form.plate} onChange={e=>upd('plate',e.target.value)}/></div>
+              </div>
+              <div style={{marginBottom:12}}><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Tipo de Serviço *</label>
+                <select style={{...inp}} value={form.service} onChange={e=>upd('service',e.target.value)} required>
+                  <option value="">Selecione o serviço</option>
+                  <option>Emplacamento Novo</option>
+                  <option>Transferência de Placa</option>
+                  <option>Fotocópia de Documentos</option>
+                  <option>Serviços Administrativos</option>
+                </select>
+              </div>
+              <div style={{marginBottom:16}}><label style={{display:'block',fontFamily:'Barlow,Arial,sans-serif',fontSize:13,fontWeight:500,color:'#3D4257',marginBottom:4}}>Observações</label>
+                <textarea style={{...inp,resize:'vertical'}} rows={3} placeholder="Informações adicionais..." value={form.notes} onChange={e=>upd('notes',e.target.value)}/>
+              </div>
+              <button type="submit" style={{width:'100%',padding:'13px',background:'#CC1E2E',color:'#fff',border:'none',borderRadius:4,fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:15,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',cursor:'pointer'}}>Enviar Solicitação</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+const Footer = ({onNav}) => (
+  <footer style={{background:'#091748',padding:'48px 32px 24px'}}>
+    <div style={{maxWidth:1216,margin:'0 auto'}}>
+      <div className="footer-grid" style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:40,paddingBottom:32,borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
+        <div>
+          <div style={{display:'flex',alignItems:'center',marginBottom:16}}>
+            <div style={{width:4,height:44,background:'#CC1E2E',borderRadius:1,marginRight:12,flexShrink:0}}></div>
+            <div>
+              <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:34,fontWeight:900,color:'#fff',letterSpacing:-0.5,lineHeight:1}}>ABF</div>
+              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.45)',letterSpacing:2.5,textTransform:'uppercase',marginTop:3}}>Emplacamentos</div>
+            </div>
+          </div>
+          <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'rgba(255,255,255,0.5)',lineHeight:1.6,maxWidth:280}}>Serviços veiculares com agilidade e confiança em Vitória da Conquista, BA.</p>
+        </div>
+        {[['Serviços',['Emplacamento Novo','Transferência','Fotocópias','Serv. Adm.']],['Empresa',['Sobre Nós','Início','Contato']],['Contato',['Rua das Placas, 123','Vitória da Conquista, BA','(77) 9999-0000','Seg–Sex 8h–18h']]].map(([title,items])=>(
+          <div key={title}>
+            <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:700,color:'rgba(255,255,255,0.35)',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:14}}>{title}</div>
+            <div style={{display:'flex',flexDirection:'column',gap:8}}>
+              {items.map(item=><span key={item} style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'rgba(255,255,255,0.6)',cursor:'pointer'}}>{item}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
+        <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:12,color:'rgba(255,255,255,0.3)'}}>© {new Date().getFullYear()} ABF Emplacamentos. Todos os direitos reservados.</div>
+        <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,color:'rgba(255,255,255,0.25)',letterSpacing:'0.06em',textTransform:'uppercase'}}>Vitória da Conquista · BA</div>
+      </div>
+    </div>
+  </footer>
+);
+
+/* ══════════════════════════════════
+   PAGE BANNER
+═══════════════════════════════════ */
+const PageBanner = ({eyebrow,title}) => (
+  <div className="bg-hero" style={{padding:'40px 32px 36px',position:'relative'}}>
+    <div style={{position:'absolute',left:0,top:0,bottom:0,width:5,background:'#CC1E2E'}}></div>
+    <div style={{maxWidth:1216,margin:'0 auto'}}>
+      <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:11,fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#CC1E2E',marginBottom:8}}>{eyebrow}</div>
+      <h1 style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:52,fontWeight:900,color:'#fff',textTransform:'uppercase'}}>{title}</h1>
+    </div>
+  </div>
+);
+
+/* ══════════════════════════════════
+   APP
+═══════════════════════════════════ */
+const App = () => {
+  const [page,setPage] = useState('home');
+  const gotoContact = () => {
+    setPage('home');
+    setTimeout(()=>{
+      const el = document.getElementById('contact');
+      if(el){ const y=el.getBoundingClientRect().top+window.scrollY-80; window.scrollTo({top:y,behavior:'smooth'}); }
+    },80);
+  };
+  return (
+    <div>
+      <Header page={page} onNav={setPage}/>
+      {page==='home'&&<>
+        <Hero onCTA={gotoContact}/>
+        <Differentials/>
+        <Services onCTA={gotoContact}/>
+        <PlateShowcase onCTA={gotoContact}/>
+        <Trust/>
+        <CTABanner onCTA={gotoContact}/>
+        <Contact/>
+      </>}
+      {page==='services'&&<>
+        <PageBanner eyebrow="O que fazemos" title="Nossos Serviços"/>
+        <Services onCTA={gotoContact}/>
+        <PlateShowcase onCTA={gotoContact}/>
+        <CTABanner onCTA={gotoContact}/>
+        <Contact/>
+      </>}
+      {page==='contact'&&<>
+        <PageBanner eyebrow="Estamos aqui" title="Fale Conosco"/>
+        <Contact/>
+      </>}
+      {page==='about'&&<>
+        <PageBanner eyebrow="Nossa história" title="Sobre a ABF"/>
+        <Trust/>
+        <CTABanner onCTA={()=>setPage('contact')}/>
+      </>}
+      <Footer onNav={setPage}/>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
