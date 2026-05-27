@@ -434,11 +434,7 @@ const Header = ({page, onNav}) => {
       {/* Nav principal */}
       <nav className="nav-main" style={{background:'#0D2260',height:62,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 32px',boxShadow:'0 2px 12px rgba(0,0,0,0.3)'}}>
         <div style={{display:'flex',alignItems:'center',cursor:'pointer'}} onClick={()=>handleNav('home')}>
-          <div style={{width:4,height:40,background:'#CC1E2E',borderRadius:1,marginRight:12,flexShrink:0}}></div>
-          <div>
-            <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:30,fontWeight:900,color:'#fff',letterSpacing:-0.5,lineHeight:1}}>ABF</div>
-            <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.5)',letterSpacing:2.5,textTransform:'uppercase',marginTop:2}}>Emplacamentos</div>
-          </div>
+          <img src="./assets/logo_abf_real.png" alt="ABF Emplacamentos" style={{height:'48px',width:'auto',objectFit:'contain'}} />
         </div>
         {/* Desktop links */}
         <div className="nav-links" style={{display:'flex',gap:2,alignItems:'center'}}>
@@ -469,8 +465,12 @@ const Header = ({page, onNav}) => {
         <button className="mobile-nav-cta" onClick={()=>handleNav('contact')}>
           Solicitar Serviço
         </button>
+        {/* Logo no menu mobile */}
+        <div style={{padding:'16px 24px 12px',borderTop:'1px solid rgba(255,255,255,0.08)',marginTop:4}}>
+          <img src="./assets/logo_abf_real.png" alt="ABF Emplacamentos" style={{height:'40px',width:'auto',objectFit:'contain'}} />
+        </div>
         {/* Contato rápido no menu */}
-        <div style={{padding:'16px 24px 24px',borderTop:'1px solid rgba(255,255,255,0.08)',marginTop:4}}>
+        <div style={{padding:'0 24px 24px'}}>
           <div style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:13,color:'rgba(255,255,255,0.5)',marginBottom:6}}>Seg–Sex 8h–18h · Sáb 8h–13h</div>
           <a href="tel:77999990000" style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:16,fontWeight:700,color:'rgba(255,255,255,0.85)',letterSpacing:'0.04em',textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.18 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -753,12 +753,8 @@ const Footer = ({onNav}) => (
     <div style={{maxWidth:1216,margin:'0 auto'}}>
       <div className="footer-grid" style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:40,paddingBottom:32,borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
         <div>
-          <div style={{display:'flex',alignItems:'center',marginBottom:16}}>
-            <div style={{width:4,height:44,background:'#CC1E2E',borderRadius:1,marginRight:12,flexShrink:0}}></div>
-            <div>
-              <div style={{fontFamily:'Barlow Condensed,Arial Narrow,Arial,sans-serif',fontSize:34,fontWeight:900,color:'#fff',letterSpacing:-0.5,lineHeight:1}}>ABF</div>
-              <div style={{fontFamily:'Barlow Condensed,Arial,sans-serif',fontSize:10,fontWeight:600,color:'rgba(255,255,255,0.45)',letterSpacing:2.5,textTransform:'uppercase',marginTop:3}}>Emplacamentos</div>
-            </div>
+          <div style={{marginBottom:16}}>
+            <img src="./assets/logo_abf_real.png" alt="ABF Emplacamentos" style={{height:'56px',width:'auto',objectFit:'contain'}} />
           </div>
           <p style={{fontFamily:'Barlow,Arial,sans-serif',fontSize:14,color:'rgba(255,255,255,0.5)',lineHeight:1.6,maxWidth:280}}>Serviços veiculares com agilidade e confiança em Vitória da Conquista, BA.</p>
         </div>
